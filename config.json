@@ -1,0 +1,10 @@
+{
+  "NodeId":[
+  {
+    "PCN": "Avilla",
+    "NodeId": "ns=2;s=CNC103.CNC103.CNC103.PartCounter",
+    "CNC": "103",
+    "WorkCenter": "61420"
+  }
+]
+}
