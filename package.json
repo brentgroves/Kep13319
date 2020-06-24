@@ -22,6 +22,7 @@
     "prettier": "^2.0.5"
   },
   "dependencies": {
+    "@bgroves/common": "^1.0.0",
     "mqtt": "^4.1.0",
     "node-datetime": "^2.1.2",
     "node-opcua": "^2.7.0"

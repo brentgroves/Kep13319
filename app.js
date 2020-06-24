@@ -1,7 +1,8 @@
 const opcua = require('node-opcua');
 const mqtt = require('mqtt');
 const config = require('./config.json');
-const util = require('./util');
+const common = require('@bgroves/common');
+
 var datetime = require('node-datetime');
 //https://github.com/node-opcua/node-opcua/blob/master/packages/node-opcua-client/source/opcua_client.ts
 //const endpointUrl = config.OPCUA;
@@ -18,16 +19,16 @@ var { MQTT_SERVER, OPCUA_ENDPOINT } = process.env;
 
 async function main() {
   try {
-    console.log('start of main');
-    console.log(`MQTT_SERVER=${MQTT_SERVER}`);
-    console.log(`OPCUA_ENDPOINT=${OPCUA_ENDPOINT}`);
-    util.log(`MQTT_SERVER=${MQTT_SERVER}`);
+    common.log('start of main');
+    common.log(`MQTT_SERVER=${MQTT_SERVER}`);
+    common.log(`OPCUA_ENDPOINT=${OPCUA_ENDPOINT}`);
+    common.log(`MQTT_SERVER=${MQTT_SERVER}`);
     const mqttClient = mqtt.connect(`mqtt://${MQTT_SERVER}`);
     const client = opcua.OPCUAClient.create({
       endpoint_must_exist: false,
     });
     client.on('backoff', (retry, delay) =>
-      util.log(
+    common.log(
         'still trying to connect to ',
         OPCUA_ENDPOINT,
         ': retry =',
@@ -52,7 +53,7 @@ async function main() {
     const subscription = await session.createSubscription2(subscriptionOptions);
     subscription
       .on('started', () =>
-        util.log(
+      common.log(
           'subscription started - subscriptionId=',
           subscription.subscriptionId,
         ),
@@ -92,7 +93,7 @@ async function main() {
           Cycle_Counter_Shift_SL: Cycle_Counter_Shift_SL,
         };
         let msgString = JSON.stringify(msg);
-        util.log(msg);
+        common.log(msg);
         mqttClient.publish('Kep13319', msgString);
       });
     }
