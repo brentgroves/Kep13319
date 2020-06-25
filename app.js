@@ -16,6 +16,8 @@ var datetime = require('node-datetime');
 // const endpointUrl = "opc.tcp://" + require("os").hostname() + ":48010";
 
 var { MQTT_SERVER, OPCUA_ENDPOINT } = process.env;
+// const MQTT_SERVER='localhost';
+// const OPCUA_ENDPOINT='opc.tcp://10.1.2.37:49321';
 
 async function main() {
   try {
@@ -84,14 +86,18 @@ async function main() {
         var dt = datetime.create();
         var transDate = dt.format('Y-m-d H:M:S');
 
-        let Cycle_Counter_Shift_SL = parseInt(dataValue.value.value.toString());
+        let cycle_Counter_Shift_SL = parseInt(dataValue.value.value.toString());
         let msg = {
-          PCN: config.NodeId[i].PCN,
-          TransDate: transDate,
-          WorkCenter: config.NodeId[i].WorkCenter,
-          NodeId: config.NodeId[i].NodeId,
-          Cycle_Counter_Shift_SL: Cycle_Counter_Shift_SL,
+          nodeId: config.NodeId[i].NodeId,
+          plexus_Customer_No: config.NodeId[i].Plexus_Customer_No,
+          pcn: config.NodeId[i].PCN,
+          workcenter_Key: config.NodeId[i].Workcenter_Key,
+          workcenter_Code: config.NodeId[i].Workcenter_Code,
+          cnc: config.NodeId[i].CNC,
+          cycle_Counter_Shift_SL: cycle_Counter_Shift_SL,
+          transDate: transDate
         };
+
         let msgString = JSON.stringify(msg);
         common.log(msg);
         mqttClient.publish('Kep13319', msgString);
