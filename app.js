@@ -2,8 +2,9 @@ const opcua = require('node-opcua');
 const mqtt = require('mqtt');
 const config = require('./config.json');
 const common = require('@bgroves/common');
+var moment = require('moment');
 
-var datetime = require('node-datetime');
+//var datetime = require('node-datetime');
 //https://github.com/node-opcua/node-opcua/blob/master/packages/node-opcua-client/source/opcua_client.ts
 //const endpointUrl = config.OPCUA;
 // 'opc.tcp://10.1.2.37:49321';
@@ -83,8 +84,11 @@ async function main() {
       );
       monitoredItem.push(mi);
       monitoredItem[i].on('changed', dataValue => {
-        var dt = datetime.create();
-        var transDate = dt.format('Y-m-d H:M:S');
+       // var dt = datetime.create();
+        // var transDate = dt.format('Y-m-d H:M:S');
+        //var date = new Date();
+        const transDate = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss");
+        common.log(`transDate=>${transDate}`);
 
         let cycle_Counter_Shift_SL = parseInt(dataValue.value.value.toString());
         let msg = {
