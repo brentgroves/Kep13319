@@ -1,6 +1,6 @@
 const opcua = require('node-opcua');
 const mqtt = require('mqtt');
-const config = require('./config.json');
+const config = require('../Config13319/config.json');
 const common = require('@bgroves/common');
 var moment = require('moment');
 
@@ -83,6 +83,7 @@ async function main() {
         opcua.TimestampsToReturn.Both, // These values are in GMT.
       );
       monitoredItem.push(mi);
+      common.log(`kep13319 => monitoring ${config.NodeId[i].NodeId}`);
       monitoredItem[i].on('changed', dataValue => {
        // var dt = datetime.create();
         // var transDate = dt.format('Y-m-d H:M:S');
@@ -103,7 +104,7 @@ async function main() {
         };
 
         let msgString = JSON.stringify(msg);
-        common.log(msg);
+        common.log(`Kep13319 publish => ${msgString}`);
         mqttClient.publish('Kep13319', msgString);
       });
     }
