@@ -66,10 +66,10 @@ async function main() {
 
     // http://node-opcua.github.io/api_doc/2.0.0/classes/clientsubscription.html#monitor
     var monitoredItem = [];
-    for (let i = 0; i < config.NodeId.length; i++) {
+    for (let i = 0; i < config.nodes.length; i++) {
       let mi = await subscription.monitor(
         {
-          nodeId: config.NodeId[i].NodeId,
+          nodeId: config.nodes[i].nodeId,
           attributeId: opcua.AttributeIds.Value,
           indexRange: null,
           dataEncoding: {namespaceIndex: 0, name: null},
@@ -83,7 +83,7 @@ async function main() {
         opcua.TimestampsToReturn.Both, // These values are in GMT.
       );
       monitoredItem.push(mi);
-      common.log(`kep13319 => monitoring ${config.NodeId[i].NodeId}`);
+      common.log(`kep13319 => monitoring ${config.nodes[i].nodeId}`);
       monitoredItem[i].on('changed', dataValue => {
        // var dt = datetime.create();
         // var transDate = dt.format('Y-m-d H:M:S');
@@ -91,15 +91,17 @@ async function main() {
         const transDate = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss");
         common.log(`transDate=>${transDate}`);
 
-        let cycle_Counter_Shift_SL = parseInt(dataValue.value.value.toString());
+        let value = parseInt(dataValue.value.value.toString());
         let msg = {
-          nodeId: config.NodeId[i].NodeId,
-          plexus_Customer_No: config.NodeId[i].Plexus_Customer_No,
-          pcn: config.NodeId[i].PCN,
-          workcenter_Key: config.NodeId[i].Workcenter_Key,
-          workcenter_Code: config.NodeId[i].Workcenter_Code,
-          cnc: config.NodeId[i].CNC,
-          cycle_Counter_Shift_SL: cycle_Counter_Shift_SL,
+          updateId: config.nodes[i].updateId,
+          nodeId: config.nodes[i].nodeId,
+          name: config.nodes[i].name,
+          plexus_Customer_No: config.nodes[i].plexus_Customer_No,
+          pcn: config.nodes[i].pcn,
+          workcenter_Key: config.nodes[i].workcenter_Key,
+          workcenter_Code: config.nodes[i].workcenter_Code,
+          cnc: config.nodes[i].cnc,
+          value: value,
           transDate: transDate
         };
 
