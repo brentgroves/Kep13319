@@ -88,7 +88,7 @@ async function main() {
        // var dt = datetime.create();
         // var transDate = dt.format('Y-m-d H:M:S');
         //var date = new Date();
-        const transDate = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss");
+        const transDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
         common.log(`transDate=>${transDate}`);
 
         let value = parseInt(dataValue.value.value.toString());
