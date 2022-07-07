@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@bgroves/common": "^1.2.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "mqtt": "^4.1.0",
     "node-opcua": "^2.7.0"
   }
